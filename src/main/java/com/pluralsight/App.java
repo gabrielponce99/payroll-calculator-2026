@@ -1,18 +1,38 @@
 package com.pluralsight;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class App {
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
         List<Employee> employees = new ArrayList<>();
 
+        System.out.println("Enter the name of the file you want to read: ");
+        String fileName = scanner.nextLine().trim().toLowerCase();
+
+        System.out.println("Enter the name of the payroll file to create: ");
+        String payrollFileName = scanner.nextLine();
+
         try {
-            FileReader fileReader = new FileReader("employees.csv");
+            FileWriter fileWriter = new FileWriter(payrollFileName);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+            bufferedWriter.write("ID | Name | Gross Pay\n");
+            bufferedWriter.write("111 | Cameron Tay | 3277.65\n");
+            bufferedWriter.write("222 | James Tee | 2150.00\n");
+
+            bufferedWriter.close();
+
+        } catch (IOException e) {
+            System.out.println("Unable to create another file.");
+        }
+
+        try {
+            FileReader fileReader = new FileReader(fileName);
             BufferedReader bufferedReader= new BufferedReader(fileReader);
 
             String line;
@@ -38,6 +58,7 @@ public class App {
 //        printEmployeeCards(employees);
 //        printEmployeeTable(employees);
     }
+
 
     private static void printEmployeeCards(List<Employee> employees) {
         for (Employee employee : employees) {
